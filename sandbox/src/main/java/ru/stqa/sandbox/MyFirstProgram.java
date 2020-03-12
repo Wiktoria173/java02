@@ -6,13 +6,10 @@ public class MyFirstProgram {
     hello("world");
     hello("user");
 
-    Square s = new Square(); // tu zostaje swtorzony obieky typu s
-    s.l = 5;
+    Square s = new Square(5); // tu zostaje swtorzony obieky typu s
     System.out.println("Powierzchnia kwadratu o boku " + s.l + " = " + area(s)); //tu: przenosze obiekt w charakterze parametru w funkcje area
 
-    Rectangle r = new Rectangle();
-    r.a = 4;
-    r.b = 6;
+    Rectangle r = new Rectangle(4, 6);
     System.out.println("Powierzchnia prostokąta o bokach " + r.a + " i " + r.b + " = " + area(r));
   }
 
