@@ -1,4 +1,4 @@
-package ru.stqa.addressbook;
+package ru.stqa.addressbook.tests;
 
 import org.testng.annotations.Test;
 
