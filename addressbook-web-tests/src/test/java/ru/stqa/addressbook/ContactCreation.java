@@ -1,4 +1,4 @@
-package ru.stqa.addressbook.tests;
+package ru.stqa.addressbook;
 
 import java.util.concurrent.TimeUnit;
 import org.testng.annotations.*;
