@@ -3,6 +3,7 @@ package ru.stqa.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.addressbook.model.ContactData;
 
@@ -10,36 +11,39 @@ import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
 
-  private final GroupHelper groupHelper = new GroupHelper();
+  WebDriver wd;
+
+  private  GroupHelper groupHelper;
 
   public void init() {
-    groupHelper.wd = new FirefoxDriver();
-    groupHelper.wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    groupHelper.wd.get("http://localhost/addressbook/");
+    wd = new FirefoxDriver();
+    wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    wd.get("http://localhost/addressbook/");
+    groupHelper = new GroupHelper(wd);
     login("admin", "secret");
   }
 
   private void login(String username, String password) {
-    groupHelper.wd.findElement(By.name("user")).click();
-    groupHelper.wd.findElement(By.name("user")).clear();
-    groupHelper.wd.findElement(By.name("user")).sendKeys(username);
-    groupHelper.wd.findElement(By.name("pass")).click();
-    groupHelper.wd.findElement(By.name("pass")).clear();
-    groupHelper.wd.findElement(By.name("pass")).sendKeys(password);
-    groupHelper.wd.findElement(By.xpath("//input[@value='Login']")).click();
+    wd.findElement(By.name("user")).click();
+    wd.findElement(By.name("user")).clear();
+    wd.findElement(By.name("user")).sendKeys(username);
+    wd.findElement(By.name("pass")).click();
+    wd.findElement(By.name("pass")).clear();
+    wd.findElement(By.name("pass")).sendKeys(password);
+    wd.findElement(By.xpath("//input[@value='Login']")).click();
   }
 
   public void goToGroupPage() {
-    groupHelper.wd.findElement(By.linkText("groups")).click();
+    wd.findElement(By.linkText("groups")).click();
   }
 
   public void stop() {
-    groupHelper.wd.quit();
+    wd.quit();
   }
 
   private boolean isElementPresent(By by) {
     try {
-      groupHelper.wd.findElement(by);
+      wd.findElement(by);
       return true;
     } catch (NoSuchElementException e) {
       return false;
@@ -48,7 +52,7 @@ public class ApplicationManager {
 
   private boolean isAlertPresent() {
     try {
-      groupHelper.wd.switchTo().alert();
+      wd.switchTo().alert();
       return true;
     } catch (NoAlertPresentException e) {
       return false;
