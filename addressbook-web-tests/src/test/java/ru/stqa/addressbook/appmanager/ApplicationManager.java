@@ -10,9 +10,9 @@ import ru.stqa.addressbook.model.ContactData;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
-
   WebDriver wd;
 
+  private NavigationHelper navigationHelper;
   private  GroupHelper groupHelper;
 
   public void init() {
@@ -20,6 +20,7 @@ public class ApplicationManager {
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/");
     groupHelper = new GroupHelper(wd);
+    navigationHelper = new NavigationHelper(wd);
     login("admin", "secret");
   }
 
@@ -33,17 +34,13 @@ public class ApplicationManager {
     wd.findElement(By.xpath("//input[@value='Login']")).click();
   }
 
-  public void goToGroupPage() {
-    wd.findElement(By.linkText("groups")).click();
-  }
-
   public void stop() {
     wd.quit();
   }
 
   private boolean isElementPresent(By by) {
     try {
-      wd.findElement(by);
+      navigationHelper.wd.findElement(by);
       return true;
     } catch (NoSuchElementException e) {
       return false;
@@ -52,7 +49,7 @@ public class ApplicationManager {
 
   private boolean isAlertPresent() {
     try {
-      wd.switchTo().alert();
+      navigationHelper.wd.switchTo().alert();
       return true;
     } catch (NoAlertPresentException e) {
       return false;
@@ -88,5 +85,9 @@ public class ApplicationManager {
 
   public GroupHelper getGroupHelper() {
     return groupHelper;
+  }
+
+  public NavigationHelper getNavigationHelper() {
+    return navigationHelper;
   }
 }
